@@ -4,7 +4,8 @@ import { useNavigate } from "react-router";
 
 const VITE_AUTH0_DOMAIN = import.meta.env.VITE_AUTH0_DOMAIN;
 const VITE_AUTH0_CLIENT_ID = import.meta.env.VITE_AUTH0_CLIENT_ID;
-const VITE_AUTH0_CALLBACK_URL = import.meta.env.VITE_AUTH0_CALLBACK_URL;
+// Detect callback URL dynamically based on current location
+const VITE_AUTH0_CALLBACK_URL = `${window.location.origin}/callback`;
 const VITE_AUTH0_AUDIENCE = import.meta.env.VITE_AUTH0_AUDIENCE;
 
 type Props = {
@@ -26,12 +27,11 @@ export const Auth0ProviderApp: FC<Props> = ({ children }) => {
       clientId={VITE_AUTH0_CLIENT_ID}
       authorizationParams={{
         audience: VITE_AUTH0_AUDIENCE,
-        redirect_uri: VITE_AUTH0_CALLBACK_URL,
+        redirect_uri: VITE_AUTH0_CALLBACK_URL, // dinámico según el dominio
       }}
-      onRedirectCallback={onRedirectCallback} //me redigire al principio de la app
+      onRedirectCallback={onRedirectCallback}
     >
-      {/* esta seria la app */}
-      {children} 
+      {children}
     </Auth0Provider>
   );
 };
